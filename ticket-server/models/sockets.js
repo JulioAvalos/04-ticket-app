@@ -21,9 +21,10 @@ class Sockets {
       socket.on("siguiente-ticket-trabajar", ({ agente, escritorio }, callback) => {
           const suTicket = this.ticketList.asignarTicket(agente, escritorio);
           callback(suTicket);
+          this.io.emit('ticket-asignado', this.ticketList.ultimos13);
         }
       );
-      
+
     });
   }
 }
