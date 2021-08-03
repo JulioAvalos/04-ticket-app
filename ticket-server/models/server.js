@@ -28,6 +28,9 @@ class Server {
         // Desplegar el directorio público
         this.app.use( express.static( path.resolve( __dirname, '../public' ) ) );
 
+        // configurar CORS
+        this.app.use( cors() );
+
         // Get de los ultimos tickets
         this.app.get('/ultimos', (req, res) => {
             res.json({
@@ -35,9 +38,6 @@ class Server {
                 ultimos: this.sockets.ticketList.ultimos13
             });
         });
-
-        // configurar CORS
-        this.app.use( cors() );
 
     }
 
