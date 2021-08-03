@@ -1,6 +1,7 @@
 const Ticket = require("./ticket");
 
 class TicketList {
+
   constructor() {
     this.ultimoNumero = 0;
     this.pendientes = [];
@@ -38,4 +39,4 @@ class TicketList {
   }
 }
 
-module.export = TicketList;
+module.exports = TicketList;

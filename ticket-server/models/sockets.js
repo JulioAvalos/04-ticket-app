@@ -1,4 +1,4 @@
-
+const TicketList = require('./ticket-list');
 
 class Sockets {
 
@@ -6,21 +6,19 @@ class Sockets {
 
         this.io = io;
 
+        // crear la instancia de nuevo ticketList
+        this.ticketList = new TicketList();
+
         this.socketEvents();
     }
 
     socketEvents() {
         // On connection
         this.io.on('connection', ( socket ) => {
-
-            // Escuchar evento: mensaje-to-server
-            socket.on('mensaje-to-server', ( data ) => {
-                console.log( data );
-                
-                this.io.emit('mensaje-from-server', data );
-            });
-            
-        
+            socket.on('solicitar-ticket', (data, callback) => {
+                const nuevoTicket = this.ticketList.crearTicket();
+                callback(nuevoTicket);
+            })
         });
     }
 
