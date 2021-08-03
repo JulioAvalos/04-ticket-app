@@ -25,6 +25,7 @@ class TicketList {
   }
 
   asignarTicket(agente, escritorio) {
+    
     if (this.pendientes.length === 0) {
       return null;
     }

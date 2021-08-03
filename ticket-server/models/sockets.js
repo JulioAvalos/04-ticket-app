@@ -1,29 +1,31 @@
-const TicketList = require('./ticket-list');
+const TicketList = require("./ticket-list");
 
 class Sockets {
+  constructor(io) {
+    this.io = io;
 
-    constructor( io ) {
+    // crear la instancia de nuevo ticketList
+    this.ticketList = new TicketList();
 
-        this.io = io;
+    this.socketEvents();
+  }
 
-        // crear la instancia de nuevo ticketList
-        this.ticketList = new TicketList();
+  socketEvents() {
+    // On connection
+    this.io.on("connection", (socket) => {
+      socket.on("solicitar-ticket", (data, callback) => {
+        const nuevoTicket = this.ticketList.crearTicket();
+        callback(nuevoTicket);
+      });
 
-        this.socketEvents();
-    }
-
-    socketEvents() {
-        // On connection
-        this.io.on('connection', ( socket ) => {
-            socket.on('solicitar-ticket', (data, callback) => {
-                const nuevoTicket = this.ticketList.crearTicket();
-                callback(nuevoTicket);
-            })
-        });
-    }
-
-
+      socket.on("siguiente-ticket-trabajar", ({ agente, escritorio }, callback) => {
+          const suTicket = this.ticketList.asignarTicket(agente, escritorio);
+          callback(suTicket);
+        }
+      );
+      
+    });
+  }
 }
-
 
 module.exports = Sockets;
